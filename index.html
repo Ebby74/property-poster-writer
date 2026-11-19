@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Poster Writer | Malaysia Real Estate</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #e0e7ff;
+      --accent-sale: #ef4444;
+      --accent-rent: #059669;
+      --accent-gold: #f59e0b;
+      --bg-gradient: linear-gradient(135deg, #fdfbf7 0%, #f4f6fb 50%, #eff6ff 100%);
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 30px -10px rgba(79, 70, 229, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 16px 12px 48px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 12px 8px;
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+      color: white;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 900;
+      color: #1e1b4b;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    header h1 span {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+
+    /* Quick Sample Picker */
+    .sample-bar {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sample-bar-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6366f1;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sample-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip-btn {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .chip-btn:hover {
+      background: var(--primary-light);
+      border-color: #818cf8;
+      color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .chip-btn.active {
+      background: #4338ca;
+      border-color: #3730a3;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(67, 56, 202, 0.35);
+    }
+
+    /* Section Containers */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .section-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Section 1: Form Inputs */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      letter-spacing: 0.01em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      background-color: #f8fafc;
+      color: #0f172a;
+      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    /* Sale / Rent Switch Button Group */
+    .toggle-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      gap: 4px;
+    }
+
+    .toggle-btn {
+      border: none;
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toggle-btn.active.sale {
+      background: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(239, 68, 68, 0.35);
+    }
+
+    .toggle-btn.active.rent {
+      background: #059669;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(5, 150, 105, 0.35);
+    }
+
+    /* Image Upload & Picker Controls */
+    .photo-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .upload-box {
+      border: 2px dashed #818cf8;
+      background: #f5f3ff;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .upload-box:hover {
+      background: #ede9fe;
+      border-color: #6366f1;
+    }
+
+    .upload-box input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-label {
+      font-weight: 700;
+      color: #4f46e5;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .upload-sub {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* Section 2: Poster Preview Card */
+    .poster-container {
+      background: linear-gradient(145deg, #0f172a, #1e1b4b);
+      border-radius: var(--radius-md);
+      color: #ffffff;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .poster-deal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .poster-deal-badge.sale {
+      background: #ef4444;
+      color: white;
+    }
+
+    .poster-deal-badge.rent {
+      background: #10b981;
+      color: white;
+    }
+
+    .poster-location-tag {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Poster Photo */
+    .poster-image-box {
+      width: 100%;
+      height: 250px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #020617;
+      position: relative;
+      margin-bottom: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .poster-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .poster-image-box:hover img {
+      transform: scale(1.02);
+    }
+
+    .poster-image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      gap: 8px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+    }
+
+    .poster-price-overlay {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(6px);
+      padding: 6px 14px;
+      border-radius: 8px;
+      color: #fde047;
+      font-weight: 900;
+      font-size: 1.15rem;
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Poster Typography */
+    .poster-headline {
+      font-size: clamp(1.25rem, 4vw, 1.55rem);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      color: #f8fafc;
+    }
+
+    .poster-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .poster-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .poster-desc {
+      background: rgba(255, 255, 255, 0.08);
+      border-left: 3px solid #f59e0b;
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #f1f5f9;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+
+    /* Poster CTA */
+    .poster-cta-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .poster-cta-btn:hover {
+      background: linear-gradient(90deg, #059669, #047857);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    /* Download PNG Button */
+    .download-png-btn {
+      width: 100%;
+      margin-top: 12px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(236, 72, 153, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .download-png-btn:hover {
+      background: linear-gradient(90deg, #db2777, #7c3aed);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(236, 72, 153, 0.4);
+    }
+
+    /* Section 3: Edit and Copy */
+    .platform-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .platform-tab-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .platform-tab-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .platform-tab-btn.active.wa {
+      background: #dcfce7;
+      border-color: #10b981;
+      color: #065f46;
+    }
+
+    .platform-tab-btn.active.fb {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      color: #1e40af;
+    }
+
+    .platform-tab-btn.active.ig {
+      background: #fce7f3;
+      border-color: #ec4899;
+      color: #9d174d;
+    }
+
+    .edit-area-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .poster-textarea {
+      min-height: 180px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid #cbd5e1;
+      background: #fafafa;
+      resize: vertical;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .copy-btn {
+      background: linear-gradient(90deg, #4f46e5, #4338ca);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: all 0.15s ease-in-out;
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(90deg, #4338ca, #3730a3);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+
+    .secondary-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .secondary-btn:hover {
+      background: #e2e8f0;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 9999px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Hidden Canvas for High-Res PNG Export */
+    #export-canvas {
+      display: none;
+    }
+
+    /* Small Screen Adjustments */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px 8px 36px;
+      }
+      .section-card {
+        padding: 16px 12px;
+      }
+      .poster-container {
+        padding: 14px;
+      }
+      .poster-image-box {
+        height: 190px;
+      }
+      .action-row {
+        flex-direction: column;
+      }
+      .copy-btn, .secondary-btn, .download-png-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Header -->
+    <header>
+      <div class="app-badge">🇲🇾 Malaysia Real Estate Tool</div>
+      <h1>Property Poster <span>Writer</span></h1>
+      <p>Turn raw property details into ready-to-use social poster messages & images in seconds.</p>
+    </header>
+
+    <!-- Malaysian Quick Sample Switcher -->
+    <div class="sample-bar">
+      <div class="sample-bar-title">
+        <span>⚡ Quick Load Sample Entries (Always Ready)</span>
+      </div>
+      <div class="sample-chips">
+        <button type="button" class="chip-btn active" id="chip-cecawi" onclick="loadSample('cecawi')">
+          🏡 Cecawi 6 Kota Damansara
+        </button>
+        <button type="button" class="chip-btn" id="chip-keramat" onclick="loadSample('keramat')">
+          🛏️ Bilik Sewa Keramat
+        </button>
+        <button type="button" class="chip-btn" id="chip-gombak" onclick="loadSample('gombak')">
+          🌳 Villa Landed Gombak
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: PROPERTY DETAILS -->
+    <!-- ========================================== -->
+    <section class="section-card" id="section-details">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-number">1</div>
+          <div>
+            <h2 class="section-heading">Property Details</h2>
+            <div class="section-sub">Enter the listing information</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="property-form" onsubmit="event.preventDefault();">
+        <div class="form-grid">
+          
+          <!-- Sale or Rent Toggle -->
+          <div class="form-group full-width">
+            <label>Transaction Type</label>
+            <div class="toggle-wrapper">
+              <button type="button" class="toggle-btn active sale" id="toggle-sale" onclick="setDealType('sale')">
+                🔥 FOR SALE
+              </button>
+              <button type="button" class="toggle-btn" id="toggle-rent" onclick="setDealType('rent')">
+                🔑 FOR RENT
+              </button>
+            </div>
+          </div>
+
+          <!-- Property Type -->
+          <div class="form-group">
+            <label for="input-type">Property Type</label>
+            <select id="input-type" onchange="handleInputChange()">
+              <option value="2-Storey Landed Terrace House">2-Storey Landed Terrace House</option>
+              <option value="1-Storey Terrace House">1-Storey Terrace House</option>
+              <option value="Condominium / Serviced Residence">Condominium / Serviced Residence</option>
+              <option value="Apartment / Flat">Apartment / Flat</option>
+              <option value="Bilik Sewa / Room Rental">Bilik Sewa / Room Rental</option>
+              <option value="Semi-Detached / Bungalow Villa">Semi-Detached / Bungalow Villa</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Commercial Shoplot / Office">Commercial Shoplot / Office</option>
+            </select>
+          </div>
+
+          <!-- Asking Price -->
+          <div class="form-group">
+            <label for="input-price">Asking Price (RM)</label>
+            <input type="text" id="input-price" value="RM 780,000" placeholder="e.g. RM 780,000 or RM 2,200/mo" oninput="handleInputChange()" />
+          </div>
+
+          <!-- Location -->
+          <div class="form-group full-width">
+            <label for="input-location">Location / Area</label>
+            <input type="text" id="input-location" value="Jalan Cecawi 6, Kota Damansara (KD)" placeholder="e.g. Jalan Cecawi 6, Kota Damansara" oninput="handleInputChange()" />
+          </div>
+
+          <!-- Key Highlights -->
+          <div class="form-group full-width">
+            <label for="input-highlight">Short Highlight / Key Features</label>
+            <input type="text" id="input-highlight" value="Matured neighborhood, walking distance to MRT Kota Damansara, wide road frontage & spacious porch." placeholder="e.g. Near LRT, renovated kitchen, peaceful hilltop" oninput="handleInputChange()" />
+          </div>
+
+          <!-- Contact / CTA details -->
+          <div class="form-group">
+            <label for="input-agent">Agent / Owner Name</label>
+            <input type="text" id="input-agent" value="Ebby Amran (REN 40341)" placeholder="e.g. Ebby Amran" oninput="handleInputChange()" />
+          </div>
+
+          <div class="form-group">
+            <label for="input-contact">Contact Phone / WhatsApp</label>
+            <input type="text" id="input-contact" value="011-3708 0094" placeholder="e.g. 011-3708 0094" oninput="handleInputChange()" />
+          </div>
+
+          <!-- Custom Photo Upload & Sample Selector -->
+          <div class="form-group full-width">
+            <label>Property Photo (Choose Sample or Upload Your Own)</label>
+            <div class="photo-controls">
+              
+              <div class="upload-box">
+                <input type="file" id="input-file" accept="image/*" onchange="handleFileUpload(event)" />
+                <div class="upload-label">
+                  <span>📸</span> Click or Drag & Drop Any Photo From Your Device
+                </div>
+                <div class="upload-sub">Supports JPG, PNG, WEBP (stored in preview immediately)</div>
+              </div>
+
+              <select id="input-image" onchange="handleImageSelectChange()">
+                <option value="Cecawi 6 KD.jpg">Sample 1: Cecawi 6 KD.jpg (Landed Terrace)</option>
+                <option value="BilikSewaKeramat.jpg">Sample 2: BilikSewaKeramat.jpg (Room Rental Flyer)</option>
+                <option value="Gombak.jpg">Sample 3: Gombak.jpg (Modern Porch Villa)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: POSTER PREVIEW -->
+    <!-- ========================================== -->
+    <section class="section-card" id="section-preview">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-number">2</div>
+          <div>
+            <h2 class="section-heading">Poster Preview</h2>
+            <div class="section-sub">Live visual poster & 1-click graphic download</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="poster-container" id="poster-capture-area">
+        
+        <!-- Header Tag Row -->
+        <div class="poster-badge-row">
+          <div class="poster-deal-badge sale" id="preview-deal-badge">🔥 FOR SALE</div>
+          <div class="poster-location-tag" id="preview-location-tag">📍 Kota Damansara</div>
+        </div>
+
+        <!-- Poster Photo Display with Price Overlay -->
+        <div class="poster-image-box">
+          <img id="preview-image" src="Cecawi 6 KD.jpg" alt="Property Photo" crossorigin="anonymous" onerror="handleImageError(this)" />
+          <div class="poster-price-overlay" id="preview-price-overlay">RM 780,000</div>
+        </div>
+
+        <!-- Headline -->
+        <h3 class="poster-headline" id="preview-headline">
+          2-Storey Landed Terrace House in Jalan Cecawi 6, Kota Damansara (KD)
+        </h3>
+
+        <!-- Badges -->
+        <div class="poster-tags">
+          <span class="poster-pill" id="preview-pill-type">🏡 2-Storey Landed Terrace</span>
+          <span class="poster-pill" id="preview-pill-deal">🔥 For Sale</span>
+          <span class="poster-pill" id="preview-pill-agent">👤 Ebby Amran (REN 40341)</span>
+        </div>
+
+        <!-- Description Box -->
+        <div class="poster-desc" id="preview-desc">
+          Hot listing now available! Matured neighborhood, walking distance to MRT Kota Damansara, wide road frontage & spacious porch. Ideal for families and savvy investors.
+        </div>
+
+        <!-- Call To Action -->
+        <a class="poster-cta-btn" id="preview-cta-btn" href="https://wa.me/601137080094" target="_blank" rel="noopener noreferrer">
+          <span>💬 WhatsApp Ebby Amran: 011-3708 0094</span>
+        </a>
+
+      </div>
+
+      <!-- Download as PNG Button -->
+      <button type="button" class="download-png-btn" onclick="downloadPosterPNG()">
+        🎨 Download Poster as PNG Image (Ready to Post)
+      </button>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: EDIT AND COPY -->
+    <!-- ========================================== -->
+    <section class="section-card" id="section-copy">
+      <div class="section-header">
+        <div class="section-title">
+          <div class="section-number">3</div>
+          <div>
+            <h2 class="section-heading">Edit & Copy</h2>
+            <div class="section-sub">Select platform style, polish wording & copy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multi-Platform Style Switcher -->
+      <label style="margin-bottom: 6px; display: block;">Format Style:</label>
+      <div class="platform-tabs">
+        <button type="button" class="platform-tab-btn active wa" id="tab-wa" onclick="setPlatform('whatsapp')">
+          🟢 WhatsApp Message
+        </button>
+        <button type="button" class="platform-tab-btn" id="tab-fb" onclick="setPlatform('facebook')">
+          🔵 Facebook Group Post
+        </button>
+        <button type="button" class="platform-tab-btn" id="tab-ig" onclick="setPlatform('instagram')">
+          🟣 Instagram & TikTok Caption
+        </button>
+      </div>
+
+      <div class="edit-area-wrapper">
+        <label for="poster-text-edit">Editable Poster Content (Live two-way sync with preview):</label>
+        <textarea id="poster-text-edit" class="poster-textarea" oninput="handleTextareaEdit()"></textarea>
+
+        <div class="action-row">
+          <button type="button" class="copy-btn" onclick="copyPosterText()">
+            📋 Copy Poster Text
+          </button>
+          
+          <button type="button" class="secondary-btn" onclick="resetToAutoGenerated()">
+            🔄 Regenerate Default Text
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Hidden Canvas for Offline High-Res Poster Generation -->
+  <canvas id="export-canvas" width="1080" height="1350"></canvas>
+
+  <!-- Toast Element -->
+  <div class="toast" id="toast">
+    <span>✅</span>
+    <span id="toast-message">Poster text copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Sample Data Sets (Specific to Malaysia & Includes Cecawi 6 KD)
+    const samples = {
+      cecawi: {
+        type: "2-Storey Landed Terrace House",
+        deal: "sale",
+        price: "RM 780,000",
+        location: "Jalan Cecawi 6, Kota Damansara (KD)",
+        highlight: "Matured neighborhood, walking distance to MRT Kota Damansara, wide road frontage & spacious porch. Great condition with Great Casa Realty listing banner.",
+        agent: "Ebby Amran (REN 40341)",
+        contact: "011-3708 0094",
+        image: "Cecawi 6 KD.jpg",
+        shortLoc: "Kota Damansara, Selangor"
+      },
+      keramat: {
+        type: "Bilik Sewa / Room Rental",
+        deal: "rent",
+        price: "RM 350 / bulan",
+        location: "Kg. Datuk Keramat, Kuala Lumpur",
+        highlight: "Bilik Sewa Muslimah selesa! Pilihan Bilik Single & Berdua. Lengkap katil, almari, ruang tamu, dapur & WiFi. Berdekatan stesen LRT.",
+        agent: "Kak Mas / Abg Ebby",
+        contact: "+60 13-207 1626",
+        image: "BilikSewaKeramat.jpg",
+        shortLoc: "Datuk Keramat, KL"
+      },
+      gombak: {
+        type: "Semi-Detached / Bungalow Villa",
+        deal: "sale",
+        price: "RM 1,250,000",
+        location: "Jalan Gombak Indah, Selangor",
+        highlight: "Exclusive modern villa with grand timber-roof porch, expansive stamped concrete driveway, lush garden & tranquil natural breeze.",
+        agent: "Ebby Amran (Great Casa)",
+        contact: "011-3708 0094",
+        image: "Gombak.jpg",
+        shortLoc: "Gombak, Selangor"
+      }
+    };
+
+    // Current State
+    let currentDeal = "sale"; // 'sale' or 'rent'
+    let currentPlatform = "whatsapp"; // 'whatsapp', 'facebook', 'instagram'
+    let isUserManuallyEditingText = false;
+    let customUploadedImageData = null;
+
+    // Initialize on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSample("cecawi");
+    });
+
+    // Toggle sale or rent immediately
+    function setDealType(type) {
+      currentDeal = type;
+      
+      const saleBtn = document.getElementById("toggle-sale");
+      const rentBtn = document.getElementById("toggle-rent");
+
+      if (type === "sale") {
+        saleBtn.className = "toggle-btn active sale";
+        rentBtn.className = "toggle-btn";
+        
+        const priceInput = document.getElementById("input-price");
+        if (priceInput.value.includes("/bulan") || priceInput.value.includes("/mo")) {
+          priceInput.value = "RM 780,000";
+        }
+      } else {
+        saleBtn.className = "toggle-btn";
+        rentBtn.className = "toggle-btn active rent";
+
+        const priceInput = document.getElementById("input-price");
+        if (!priceInput.value.includes("/bulan") && !priceInput.value.includes("/mo")) {
+          priceInput.value = "RM 2,500 / bulan";
+        }
+      }
+
+      updateAll();
+    }
+
+    // Toggle platform copywriting format (WhatsApp / Facebook / Instagram)
+    function setPlatform(platform) {
+      currentPlatform = platform;
+
+      document.querySelectorAll(".platform-tab-btn").forEach(btn => btn.className = "platform-tab-btn");
+      if (platform === "whatsapp") {
+        document.getElementById("tab-wa").className = "platform-tab-btn active wa";
+      } else if (platform === "facebook") {
+        document.getElementById("tab-fb").className = "platform-tab-btn active fb";
+      } else {
+        document.getElementById("tab-ig").className = "platform-tab-btn active ig";
+      }
+
+      isUserManuallyEditingText = false;
+      updateAll();
+      showToast(`Switched to ${platform.toUpperCase()} format!`);
+    }
+
+    // Load one of the 3 Malaysian Samples
+    function loadSample(key) {
+      const data = samples[key];
+      if (!data) return;
+
+      customUploadedImageData = null;
+
+      // Update sample chip active states
+      document.querySelectorAll(".chip-btn").forEach(btn => btn.classList.remove("active"));
+      const activeChip = document.getElementById(`chip-${key}`);
+      if (activeChip) activeChip.classList.add("active");
+
+      // Populate form
+      document.getElementById("input-type").value = data.type;
+      document.getElementById("input-price").value = data.price;
+      document.getElementById("input-location").value = data.location;
+      document.getElementById("input-highlight").value = data.highlight;
+      document.getElementById("input-agent").value = data.agent;
+      document.getElementById("input-contact").value = data.contact;
+      document.getElementById("input-image").value = data.image;
+
+      // Reset file input label
+      const fileInput = document.getElementById("input-file");
+      if (fileInput) fileInput.value = "";
+
+      // Set deal type
+      currentDeal = data.deal;
+      const saleBtn = document.getElementById("toggle-sale");
+      const rentBtn = document.getElementById("toggle-rent");
+      if (data.deal === "sale") {
+        saleBtn.className = "toggle-btn active sale";
+        rentBtn.className = "toggle-btn";
+      } else {
+        saleBtn.className = "toggle-btn";
+        rentBtn.className = "toggle-btn active rent";
+      }
+
+      isUserManuallyEditingText = false;
+      updateAll();
+    }
+
+    function handleInputChange() {
+      isUserManuallyEditingText = false;
+      updateAll();
+    }
+
+    function handleImageSelectChange() {
+      customUploadedImageData = null;
+      const select = document.getElementById("input-image");
+      const imgElem = document.getElementById("preview-image");
+      imgElem.src = select.value;
+      imgElem.style.display = "block";
+      showToast("Updated preview photo!");
+    }
+
+    // Custom File Upload
+    function handleFileUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        customUploadedImageData = e.target.result;
+        const imgElem = document.getElementById("preview-image");
+        imgElem.src = customUploadedImageData;
+        imgElem.style.display = "block";
+
+        // Remove active state from sample chips
+        document.querySelectorAll(".chip-btn").forEach(btn => btn.classList.remove("active"));
+        showToast("📷 Custom photo loaded into poster!");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleImageError(img) {
+      img.onerror = null;
+      img.parentElement.innerHTML = `
+        <div class="poster-image-placeholder">
+          <span style="font-size:2.2rem">🏡</span>
+          <span>Property Photo Display</span>
+          <small style="opacity:0.75">${document.getElementById("input-location").value}</small>
+        </div>
+        <div class="poster-price-overlay" id="preview-price-overlay">${document.getElementById("input-price").value}</div>
+      `;
+    }
+
+    // Generate poster text & update preview immediately on screen
+    function updateAll() {
+      const propType = document.getElementById("input-type").value || "Property";
+      const price = document.getElementById("input-price").value || "Price upon request";
+      const location = document.getElementById("input-location").value || "Malaysia";
+      const highlight = document.getElementById("input-highlight").value || "Great location & amenities.";
+      const agent = document.getElementById("input-agent").value || "Property Agent";
+      const contact = document.getElementById("input-contact").value || "WhatsApp for info";
+      const imageChoice = customUploadedImageData || document.getElementById("input-image").value;
+
+      const isSale = currentDeal === "sale";
+      const dealLabel = isSale ? "FOR SALE" : "FOR RENT";
+      const dealBadgeIcon = isSale ? "🔥" : "🔑";
+      const actionVerb = isSale ? "Own this charming" : "Rent this lovely";
+
+      // 1. Update Section 2 (Poster Preview UI)
+      const dealBadge = document.getElementById("preview-deal-badge");
+      dealBadge.textContent = `${dealBadgeIcon} ${dealLabel}`;
+      dealBadge.className = `poster-deal-badge ${isSale ? 'sale' : 'rent'}`;
+
+      document.getElementById("preview-location-tag").textContent = `📍 ${location.split(',')[0] || location}`;
+      
+      const priceOverlay = document.getElementById("preview-price-overlay");
+      if (priceOverlay) priceOverlay.textContent = price;
+
+      // Update image
+      const imgElem = document.getElementById("preview-image");
+      if (imgElem && !customUploadedImageData) {
+        imgElem.src = imageChoice;
+      }
+
+      // Headline
+      const headlineText = isSale 
+        ? `${propType} For Sale in ${location}`
+        : `${propType} Available For Rent in ${location}`;
+      document.getElementById("preview-headline").textContent = headlineText;
+
+      // Pills
+      document.getElementById("preview-pill-type").textContent = `🏠 ${propType}`;
+      document.getElementById("preview-pill-deal").textContent = `${dealBadgeIcon} ${dealLabel}`;
+      document.getElementById("preview-pill-agent").textContent = `👤 ${agent}`;
+
+      // Description
+      const descText = `${actionVerb} ${propType} located at ${location}. ${highlight}\n\n💰 Asking Price: ${price}`;
+      document.getElementById("preview-desc").textContent = descText;
+
+      // CTA Button
+      const cleanPhone = contact.replace(/[^0-9]/g, '');
+      const waNumber = cleanPhone.startsWith('0') ? '60' + cleanPhone.slice(1) : cleanPhone;
+      const ctaBtn = document.getElementById("preview-cta-btn");
+      ctaBtn.href = waNumber ? `https://wa.me/${waNumber}` : "#";
+      ctaBtn.innerHTML = `<span>💬 WhatsApp ${agent}: ${contact}</span>`;
+
+      // 2. Update Section 3 (Editable Poster Text according to selected platform)
+      if (!isUserManuallyEditingText) {
+        const fullPosterCopy = generatePlatformCopy({
+          platform: currentPlatform,
+          isSale,
+          dealLabel,
+          dealBadgeIcon,
+          headlineText,
+          location,
+          propType,
+          price,
+          highlight,
+          agent,
+          contact
+        });
+
+        document.getElementById("poster-text-edit").value = fullPosterCopy;
+      }
+    }
+
+    function generatePlatformCopy(d) {
+      if (d.platform === "whatsapp") {
+        return `✨ *[${d.dealBadgeIcon} ${d.dealLabel}] ${d.headlineText}* ✨
+
+📍 *Lokasi:* ${d.location}
+💰 *Harga:* ${d.price}
+🏠 *Kategori:* ${d.propType}
+
+🌟 *Kelebihan & Ciri Menarik:*
+${d.highlight}
+
+📞 *Hubungi Untuk Maklumat / Viewing:*
+👤 Agent: ${d.agent}
+📲 WhatsApp / Call: ${d.contact}
+
+👉 _Tekan link untuk temujanji viewing segera!_`;
+      } 
+      
+      if (d.platform === "facebook") {
+        return `📢 [HOT LISTING] ${d.headlineText}!
+
+Mencari hartanah idaman atau pelaburan terbaik di kawasan strategik? Jangan lepaskan peluang untuk unit ini!
+
+📌 Spesifikasi Ringkas:
+• Jenis: ${d.propType} (${d.dealLabel})
+• Lokasi: ${d.location}
+• Harga Tawaran: ${d.price}
+
+✨ Kelebihan Utama:
+${d.highlight}
+
+💼 Hubungi kami untuk semakan kelayakan pinjaman & sesi viewing:
+👤 Perunding Hartanah: ${d.agent}
+📲 WhatsApp terus: ${d.contact}
+
+#RumahUntukDijual #HartanahMalaysia #SubsaleKL #PropertyMalaysia #SewaRumah #${d.location.replace(/[^a-zA-Z0-9]/g, '')}`;
+      }
+
+      // Instagram / TikTok style
+      return `🏡 ${d.headlineText}
+
+✨ ${d.highlight}
+
+📍 ${d.location}
+💰 ${d.price}
+🔑 ${d.dealLabel}
+
+💬 DM kami atau klik link di bio untuk viewing!
+📲 WhatsApp: ${d.contact} (${d.agent})
+
+.
+.
+#malaysiaproperty #rumahmalaysia #realestateagent #propertymalaysia #rumahsewa #subsaleproperty`;
+    }
+
+    // Two-way sync: User editing Section 3 textarea keeps preview updated
+    function handleTextareaEdit() {
+      isUserManuallyEditingText = true;
+      const text = document.getElementById("poster-text-edit").value;
+      const descElem = document.getElementById("preview-desc");
+      if (descElem) {
+        descElem.textContent = text;
+      }
+    }
+
+    function resetToAutoGenerated() {
+      isUserManuallyEditingText = false;
+      updateAll();
+      showToast("🔄 Regenerated default poster copy!");
+    }
+
+    // Copy poster content with fallback
+    async function copyPosterText() {
+      const textarea = document.getElementById("poster-text-edit");
+      const textToCopy = textarea.value.trim();
+
+      if (!textToCopy) {
+        showToast("⚠️ Nothing to copy!");
+        return;
+      }
+
+      let success = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          success = true;
+        } catch (err) {
+          console.warn("Clipboard API failed, trying fallback:", err);
+        }
+      }
+
+      if (!success) {
+        try {
+          textarea.focus();
+          textarea.select();
+          success = document.execCommand("copy");
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+      }
+
+      if (success) {
+        showToast("✅ Poster text copied to clipboard!");
+      } else {
+        showToast("📋 Please select and copy the text manually.");
+      }
+    }
+
+    // Feature: 1-Click High-Res PNG Poster Generator
+    function downloadPosterPNG() {
+      const canvas = document.getElementById("export-canvas");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width; // 1080
+      const height = canvas.height; // 1350
+
+      // Read current form values
+      const propType = document.getElementById("input-type").value;
+      const price = document.getElementById("input-price").value;
+      const location = document.getElementById("input-location").value;
+      const highlight = document.getElementById("input-highlight").value;
+      const agent = document.getElementById("input-agent").value;
+      const contact = document.getElementById("input-contact").value;
+      const isSale = currentDeal === "sale";
+
+      // 1. Draw rich background
+      const grad = ctx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, "#090d16");
+      grad.addColorStop(0.5, "#151c2e");
+      grad.addColorStop(1, "#1e1b4b");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. Draw Top Header Bar
+      ctx.fillStyle = isSale ? "#ef4444" : "#10b981";
+      ctx.fillRect(60, 50, 260, 50);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 26px sans-serif";
+      ctx.fillText(isSale ? "🔥 FOR SALE" : "🔑 FOR RENT", 85, 85);
+
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "bold 24px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText(`📍 ${location.split(',')[0]}`, width - 60, 85);
+      ctx.textAlign = "left";
+
+      // 3. Draw Property Image
+      const imgElem = document.getElementById("preview-image");
+      const drawImageAndFinalize = (loadedImg) => {
+        const imgX = 60;
+        const imgY = 130;
+        const imgW = width - 120;
+        const imgH = 580;
+
+        // Clip rounded rectangle for image
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(imgX, imgY, imgW, imgH, 20);
+        ctx.clip();
+
+        if (loadedImg && loadedImg.naturalWidth) {
+          // Cover fit calculation
+          const aspectImg = loadedImg.naturalWidth / loadedImg.naturalHeight;
+          const aspectBox = imgW / imgH;
+          let sx = 0, sy = 0, sw = loadedImg.naturalWidth, sh = loadedImg.naturalHeight;
+
+          if (aspectImg > aspectBox) {
+            sw = loadedImg.naturalHeight * aspectBox;
+            sx = (loadedImg.naturalWidth - sw) / 2;
+          } else {
+            sh = loadedImg.naturalWidth / aspectBox;
+            sy = (loadedImg.naturalHeight - sh) / 2;
+          }
+          ctx.drawImage(loadedImg, sx, sy, sw, sh, imgX, imgY, imgW, imgH);
+        } else {
+          ctx.fillStyle = "#1e293b";
+          ctx.fillRect(imgX, imgY, imgW, imgH);
+        }
+        ctx.restore();
+
+        // Price Badge on top of image
+        ctx.save();
+        ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+        ctx.strokeStyle = "#fde047";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(width - 380, 620, 320, 70, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#fde047";
+        ctx.font = "bold 34px sans-serif";
+        ctx.fillText(price, width - 360, 668);
+        ctx.restore();
+
+        // 4. Headline
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 44px sans-serif";
+        wrapText(ctx, `${propType} at ${location}`, 60, 780, width - 120, 52);
+
+        // 5. Highlight Box
+        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+        ctx.strokeStyle = "#f59e0b";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(60, 890, width - 120, 200, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#f1f5f9";
+        ctx.font = "30px sans-serif";
+        wrapText(ctx, `✨ ${highlight}`, 90, 950, width - 180, 42);
+
+        // 6. Call-to-action button
+        ctx.save();
+        const ctaGrad = ctx.createLinearGradient(60, 1140, width - 60, 1260);
+        ctaGrad.addColorStop(0, "#10b981");
+        ctaGrad.addColorStop(1, "#059669");
+        ctx.fillStyle = ctaGrad;
+        ctx.beginPath();
+        ctx.roundRect(60, 1140, width - 120, 110, 18);
+        ctx.fill();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 36px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(`💬 WhatsApp ${agent}: ${contact}`, width / 2, 1210);
+        ctx.restore();
+
+        // Trigger Download
+        try {
+          const dataURL = canvas.toDataURL("image/png");
+          const a = document.createElement("a");
+          a.download = `Poster-${location.split(',')[0].replace(/\s+/g, '-')}.png`;
+          a.href = dataURL;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showToast("🎉 High-Res PNG poster downloaded!");
+        } catch (e) {
+          console.error("Canvas export error:", e);
+          showToast("⚠️ Could not export canvas image.");
+        }
+      };
+
+      if (imgElem.complete && imgElem.naturalWidth > 0) {
+        drawImageAndFinalize(imgElem);
+      } else {
+        const tempImg = new Image();
+        tempImg.crossOrigin = "anonymous";
+        tempImg.onload = () => drawImageAndFinalize(tempImg);
+        tempImg.onerror = () => drawImageAndFinalize(null);
+        tempImg.src = imgElem.src;
+      }
+    }
+
+    // Canvas helper for text wrapping
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      let line = '';
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, x, y);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      const msgElem = document.getElementById("toast-message");
+      msgElem.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
